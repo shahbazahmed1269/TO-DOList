@@ -1,0 +1,61 @@
+package in.shapps.todoapp;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
+import android.view.ViewGroup;
+
+import java.util.HashMap;
+
+/**
+ * Created by James on 1/24/2016.
+ */
+public class MyPagerAdapter extends SmartFragmentStatePagerAdapter {
+    private static int NUM_ITEMS;
+    private HashMap<Integer,List> listMap;
+    private Fragment mCurrentFragment;
+
+    public MyPagerAdapter(FragmentManager fragmentManager, HashMap<Integer,List> listMap1) {
+        super(fragmentManager);
+        listMap=listMap1;
+        if(listMap==null)
+            listMap=new HashMap<Integer,List>();
+    }
+
+    // Returns total number of pages
+    @Override
+    public int getCount() {
+       //Log.d("DEBUG1", "inside getCount id list size " + listMap.size());
+        return listMap.size();
+        //return NUM_ITEMS;
+    }
+
+    // Returns the fragment to display for that page
+    @Override
+    public Fragment getItem(int id) {
+        //Log.d("DEBUG1","inside getItem id "+(listMap.get(id).getId()));
+        return ListFragment.newInstance(listMap.get(id).getId());
+    }
+
+    // Returns the page title for the top indicator
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return listMap.get(position).getListName();
+    }
+
+    public Fragment getCurrentFragment() {
+        return mCurrentFragment;
+    }
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        if (getCurrentFragment() != object) {
+            mCurrentFragment = ((Fragment) object);
+        }
+        super.setPrimaryItem(container, position, object);
+    }
+
+    public Fragment getFragment(int key) {
+        return registeredFragments.get(key);
+    }
+
+}

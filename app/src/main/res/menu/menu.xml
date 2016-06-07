@@ -1,0 +1,35 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="in.shapps.todoapp.MainActivity"
+    >
+
+    <EditText
+        android:id="@+id/list_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:showAsAction="always"
+        >
+
+    </EditText>
+    <item
+        android:id="@+id/add_record"
+        android:orderInCategory="100"
+        android:title="@string/add_list"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_add_white_48dp"/>
+    <item
+        android:id="@+id/more_options"
+        android:orderInCategory="101"
+        android:title="@string/more_options"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_more_vert_white_48dp">
+
+        <menu>
+        <item
+            android:id="@+id/settings"
+            android:title="Settings"/>
+        </menu>
+    </item>
+
+</menu>

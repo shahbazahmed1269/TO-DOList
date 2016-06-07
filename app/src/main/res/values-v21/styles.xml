@@ -1,0 +1,24 @@
+<resources>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <!-- Extended toolbar styles -->
+    <style name="EditTextHeadline" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textColorHint">#33ffffff</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
+        <item name="android:inputType">textCapSentences</item>
+    </style>
+
+    <style name="EditTextSubhead" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textColorHint">#33ffffff</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="android:inputType">textCapSentences</item>
+    </style>
+</resources>
