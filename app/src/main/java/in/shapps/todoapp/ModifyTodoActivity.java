@@ -15,24 +15,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static in.shapps.todoapp.TaskProvider.TASK_CONTENT_URI;
+
 public class ModifyTodoActivity extends AppCompatActivity implements OnClickListener {
     private EditText titleText,descText;
     private Button updateBtn, deleteBtn;
     private long _id;
-    private SQLController dbController;
     private TextView dueDateText ;
-    private static final String CONTENT_AUTHORITY = "in.shapps.todoapp";
-    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    public static final String PATH_LIST = "list1";
-    public static final String PATH_TASK = "task1";
-    private static final Uri LIST_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY+"/"+PATH_LIST);
-    private static final Uri TASK_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY+"/"+PATH_TASK);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_todo);
-        //Toolbar initialization
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_modify);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -46,8 +41,6 @@ public class ModifyTodoActivity extends AppCompatActivity implements OnClickList
             }
         });
 
-        //dbController = new SQLController(this);
-        //dbController.open();
         titleText = (EditText) findViewById(R.id.subject_edittext);
         descText = (EditText) findViewById(R.id.description_edittext);
         updateBtn = (Button) findViewById(R.id.btn_update);
@@ -73,13 +66,7 @@ public class ModifyTodoActivity extends AppCompatActivity implements OnClickList
             case R.id.btn_update:
                 if(titleText.getText().toString().trim().length() == 0 )
                     titleText.setError( "Title is required!" );
-                /*else if(descText.getText().toString().trim().length() == 0 )
-                    titleText.setError( "Description is required!" );*/
                 else {
-                    /*Task task = new Task();
-                    task.setTitle(titleText.getText().toString());
-                    task.setDesc(descText.getText().toString());
-                    dbController.updateTask(_id, task);*/
                     ContentValues contentValues = new ContentValues();
                     //contentValues.put(DBHelper.TODO_LIST_ID, _id);
                     contentValues.put(DBHelper.TODO_SUBJECT,titleText.getText().toString().trim());
@@ -93,7 +80,6 @@ public class ModifyTodoActivity extends AppCompatActivity implements OnClickList
                 }
                 break;
             case R.id.btn_delete:
-                //dbController.deleteTask(_id);
                 Uri returnUri = ContentUris.withAppendedId(TASK_CONTENT_URI, _id);
                 int id = getContentResolver().delete(returnUri,null,null );
                 Toast.makeText(this,"Task deleted having id"+_id,Toast.LENGTH_SHORT).show();

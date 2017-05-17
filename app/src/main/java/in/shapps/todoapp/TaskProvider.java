@@ -12,12 +12,17 @@ import java.util.*;
 import java.util.List;
 
 public class TaskProvider extends ContentProvider {
-    private static final String CONTENT_AUTHORITY = "in.shapps.todoapp";
-    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    public static final String CONTENT_AUTHORITY = "in.shapps.todoapp";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_LIST = "list1";
     public static final String PATH_TASK = "task1";
-    private static final Uri LIST_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY+"/"+PATH_LIST);
-    private static final Uri TASK_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY+"/"+PATH_TASK);
+    public static final Uri LIST_CONTENT_URI = Uri.parse(
+            "content://" + CONTENT_AUTHORITY+"/"+PATH_LIST
+    );
+    public static final Uri TASK_CONTENT_URI = Uri.parse(
+            "content://" + CONTENT_AUTHORITY+"/"+PATH_TASK
+    );
+
     private static final int LIST = 1;
     private static final int LIST_ID = 2;
     private static final int TASK = 3;
@@ -46,7 +51,13 @@ public class TaskProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(
+            Uri uri,
+            String[] projection,
+            String selection,
+            String[] selectionArgs,
+            String sortOrder
+    ) {
         Cursor cursor;
         switch (uriMatcher.match(uri)) {
             case TASK:
@@ -58,8 +69,6 @@ public class TaskProvider extends ContentProvider {
             case TASK_ALL:
                 cursor=dbController.query(DBHelper.TABLE_NAME_TASK, projection, selection,
                         selectionArgs, null, null, sortOrder, null);
-                /*cursor=dbController.query(DBHelper.TABLE_NAME_TASK, columns, selection,
-                        selectionArgs, groupBy, having, orderBy, limit);*/
                 cursor.setNotificationUri(getContext().getContentResolver(), uri);
                 return cursor;
             case LIST:
