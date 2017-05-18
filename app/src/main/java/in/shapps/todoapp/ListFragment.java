@@ -42,7 +42,7 @@ import static in.shapps.todoapp.TaskProvider.LIST_CONTENT_URI;
 import static in.shapps.todoapp.TaskProvider.TASK_CONTENT_URI;
 
 public class ListFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<Cursor>{
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String ARG_PARAM1 = "listId";
     private Cursor cursor;
@@ -80,7 +80,7 @@ public class ListFragment extends Fragment implements
         if (getArguments() != null) {
             mListId = getArguments().getInt(ARG_PARAM1);
         }
-        if(mUiHandler==null)
+        if (mUiHandler == null)
             mUiHandler = new Handler();
         getLoaderManager().restartLoader(1, null, this);
     }
@@ -91,74 +91,12 @@ public class ListFragment extends Fragment implements
         view = inflater.inflate(R.layout.fragment_list, container, false);
 
         final FloatingActionMenu menu1 = (FloatingActionMenu) view.findViewById(R.id.menu);
-
-        final FloatingActionButton programFab1 = new FloatingActionButton(getActivity());
-        programFab1.setButtonSize(FloatingActionButton.SIZE_MINI);
-        programFab1.setLabelText("Add New List");
-        programFab1.setImageResource(R.drawable.ic_add_white_48dp);
-        programFab1.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
-        menu1.addMenuButton(programFab1);
-        programFab1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder newListAlert = new AlertDialog.Builder(getActivity());
-                newListAlert.setTitle("Title of the Input Box");
-                newListAlert.setMessage("Enter the name of list to create");
-                final EditText mListName = new EditText(getActivity().getApplicationContext());
-                newListAlert.setView(mListName);
-                newListAlert.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        newListName = mListName.getText().toString().trim();
-                        if (newListName == null ||
-                                newListName.length() == 0 ||
-                                (newListName.equals(" ") == true)
-                        ) {
-                            //mListName.setError("List name cannot be empty");
-                            dialog.dismiss();
-                            Toast.makeText(
-                                    getActivity(),
-                                    "List name cannot be Empty",
-                                    Toast.LENGTH_SHORT
-                            ).show();
-
-                        } else if (newListName.length() > 10) {
-                            //mListName.setError("List size can not be more than 10 characters");
-                            dialog.dismiss();
-                            Toast.makeText(
-                                    getActivity(),
-                                    "List size can not be more than 10 characters",
-                                    Toast.LENGTH_SHORT
-                            ).show();
-                        } else {
-                            ContentValues contentValues = new ContentValues();
-                            contentValues.put(DBHelper.TODO_LIST_NAME, newListName);
-                            Uri uri = getActivity().getContentResolver()
-                                    .insert(LIST_CONTENT_URI, contentValues);
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-                });
-                newListAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                AlertDialog alertDialog = newListAlert.create();
-                alertDialog.show();
-            }
-        });
-
         menu1.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 menu1.toggle(true);
             }
         });
-
-
         menu1.hideMenuButton(false);
 
         int delay = 400;
@@ -172,12 +110,9 @@ public class ListFragment extends Fragment implements
 
         menu1.setClosedOnTouchOutside(true);
 
-
         fab1 = (FloatingActionButton) view.findViewById(R.id.menu_item1);
         fab2 = (FloatingActionButton) view.findViewById(R.id.menu_item2);
         fab3 = (FloatingActionButton) view.findViewById(R.id.menu_item3);
-
-        fab1.setEnabled(false);
         fab1.setOnClickListener(clickListener);
         fab2.setOnClickListener(clickListener);
         fab3.setOnClickListener(clickListener);
@@ -185,8 +120,8 @@ public class ListFragment extends Fragment implements
 
         listView = (ListView) view.findViewById(R.id.list_view);
         Uri returnUri = ContentUris.withAppendedId(TASK_CONTENT_URI, mListId);
-        cursor=getActivity().getApplicationContext()
-                .getContentResolver().query(returnUri,null,null,null,null);
+        cursor = getActivity().getApplicationContext()
+                .getContentResolver().query(returnUri, null, null, null, null);
         String[] from = new String[]{
                 DBHelper.TASK_ID,
                 DBHelper.TODO_SUBJECT,
@@ -194,8 +129,8 @@ public class ListFragment extends Fragment implements
                 DBHelper.TODO_TASK_STATUS,
                 DBHelper.TODO_DATETIME
         };
-        int[] to = new int[]{R.id.id, R.id.title, R.id.desc,R.id.mark_complete_image,R.id.task_date};
-        myAdapter=new MyCursorAdapter(
+        int[] to = new int[]{R.id.id, R.id.title, R.id.desc, R.id.mark_complete_image, R.id.task_date};
+        myAdapter = new MyCursorAdapter(
                 getActivity().getApplicationContext(),
                 R.layout.activity_view_record,
                 cursor,
@@ -296,7 +231,7 @@ public class ListFragment extends Fragment implements
                             if (value) {
                                 Uri returnUri = ContentUris.withAppendedId(TASK_CONTENT_URI, id);
                                 id = getActivity().getApplicationContext()
-                                        .getContentResolver().delete(returnUri,null,null);
+                                        .getContentResolver().delete(returnUri, null, null);
                             }
                         }
                         Intent home_intent = new Intent(
@@ -334,19 +269,20 @@ public class ListFragment extends Fragment implements
         // Inflate the layout for this fragment
         return view;
     }
+
     @Override
     public void onDestroyView() {
-        mUiHandler=null;
-        cursor=null;
-        listView=null;
-        mActionMode=null;
-        taskId=null;
-        mDeleteButton=null;
-        newListName=null;
-        view=null;
-        fab1=null;
-       fab2=null;
-        fab3=null;
+        mUiHandler = null;
+        cursor = null;
+        listView = null;
+        mActionMode = null;
+        taskId = null;
+        mDeleteButton = null;
+        newListName = null;
+        view = null;
+        fab1 = null;
+        fab2 = null;
+        fab3 = null;
         super.onDestroyView();
         System.gc();
     }
@@ -410,57 +346,71 @@ public class ListFragment extends Fragment implements
 
             switch (v.getId()) {
                 case R.id.menu_item1:
-                    final AlertDialog.Builder newListAlert = new AlertDialog.Builder(getActivity());
-                    newListAlert.setTitle("Title of the Input Box");
-                    newListAlert.setMessage("Enter the name of list to create");
-                    final EditText mListName = new EditText(getActivity().getApplicationContext());
-                    newListAlert.setView(mListName);
-                    newListAlert.setPositiveButton("Create",new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            newListName = mListName.getText().toString().trim();
-                            if (newListName == null ||
-                                    newListName.length() == 0||
-                                    (newListName.equals(" ")==true)
-                            ) {
-                                //mListName.setError("List name cannot be empty");
-                                dialog.dismiss();
-                                Toast.makeText(
-                                        getActivity().getApplicationContext(),
-                                        "List name cannot be Empty",
-                                        Toast.LENGTH_SHORT
-                                ).show();
+                    final AlertDialog.Builder newListAlert = new AlertDialog.Builder(
+                            getActivity(), R.style.DialogTheme
+                    );
 
+                    View dialogView = getActivity()
+                            .getLayoutInflater()
+                            .inflate(R.layout.list_dialog, null);
+
+                    final EditText mListName = (EditText) dialogView.findViewById(R.id.et_list_name);
+                    mListName.setTextColor(ContextCompat.getColor(
+                            getActivity(), R.color.textColorLight)
+                    );
+                    newListAlert.setTitle(getString(R.string.add_list))
+                            .setView(dialogView)
+                            .setPositiveButton(
+                                    getString(R.string.create),
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            newListName = mListName.getText().toString().trim();
+                                            if (newListName == null ||
+                                                    newListName.length() == 0 ||
+                                                    (newListName.equals(" ") == true)
+                                                    ) {
+                                                //mListName.setError("List name cannot be empty");
+                                                dialog.dismiss();
+                                                Toast.makeText(
+                                                        getActivity().getApplicationContext(),
+                                                        "List name cannot be Empty",
+                                                        Toast.LENGTH_SHORT
+                                                ).show();
+
+                                            } else if (newListName.length() > 10) {
+                                                //mListName.setError("List size can not be more than 10 characters");
+                                                dialog.dismiss();
+                                                Toast.makeText(
+                                                        getActivity().getApplicationContext(),
+                                                        "List size can not be more than 10 characters",
+                                                        Toast.LENGTH_SHORT
+                                                ).show();
+                                            } else {
+                                                ContentValues contentValues = new ContentValues();
+                                                contentValues.put(
+                                                        DBHelper.TODO_LIST_NAME, newListName
+                                                );
+                                                Uri uri = getActivity().getApplicationContext()
+                                                        .getContentResolver()
+                                                        .insert(LIST_CONTENT_URI, contentValues);
+                                                Intent intent = new Intent(
+                                                        getActivity().getApplicationContext(),
+                                                        MainActivity.class
+                                                );
+                                                startActivity(intent);
+                                            }
+                                        }
+                                    }
+                            ).setNegativeButton(
+                            getString(R.string.cancel),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
                             }
-                            else if (newListName.length() > 10) {
-                                //mListName.setError("List size can not be more than 10 characters");
-                                dialog.dismiss();
-                                Toast.makeText(
-                                        getActivity().getApplicationContext(),
-                                        "List size can not be more than 10 characters",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                            }
-                            else {
-                                ContentValues contentValues = new ContentValues();
-                                contentValues.put(DBHelper.TODO_LIST_NAME, newListName);
-                                Uri uri = getActivity().getApplicationContext()
-                                        .getContentResolver()
-                                        .insert(LIST_CONTENT_URI, contentValues);
-                                Intent intent = new Intent(
-                                        getActivity().getApplicationContext(),
-                                        MainActivity.class
-                                );
-                                startActivity(intent);
-                            }
-                        }
-                    });
-                    newListAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                    );
                     AlertDialog alertDialog = newListAlert.create();
                     alertDialog.show();
                     break;
@@ -475,9 +425,11 @@ public class ListFragment extends Fragment implements
                             "Yes",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    Uri returnUri = ContentUris.withAppendedId(LIST_CONTENT_URI, mListId);
+                                    Uri returnUri = ContentUris.withAppendedId(
+                                            LIST_CONTENT_URI, mListId
+                                    );
                                     id = getActivity().getApplicationContext()
-                                            .getContentResolver().delete(returnUri,null,null );
+                                            .getContentResolver().delete(returnUri, null, null);
                                     Toast.makeText(
                                             getActivity(),
                                             "List deleted with list_id= " + mListId,
@@ -509,10 +461,8 @@ public class ListFragment extends Fragment implements
                             getActivity().getApplicationContext(),
                             AddTodoActivity.class
                     );
-                    add_mem.putExtra("IN.SHAPPS.TODOLIST.LISTID", mListId+"");
+                    add_mem.putExtra("IN.SHAPPS.TODOLIST.LISTID", mListId + "");
                     startActivity(add_mem);
-                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
                     break;
             }
         }
@@ -521,7 +471,7 @@ public class ListFragment extends Fragment implements
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         // This is called when a new Loader needs to be created
-        Uri CONTENT_URI=ContentUris.withAppendedId(TASK_CONTENT_URI, mListId);
+        Uri CONTENT_URI = ContentUris.withAppendedId(TASK_CONTENT_URI, mListId);
         return new CursorLoader(getActivity(), CONTENT_URI, null, null, null, null);
     }
 

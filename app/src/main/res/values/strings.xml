@@ -8,6 +8,8 @@
     <string name="export_records">Export To Excel</string>
     <string name="btn_update">Update</string>
     <string name="btn_delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
     <string name="empty_list_text">No records found</string>
     <string name="enter_desc">Note</string>
     <string name="enter_title">Title</string>
@@ -18,6 +20,7 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close TaskList</string>
     <string name="more_options">More Options</string>
+    <string name="dialog_message">Enter the name of new list</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
