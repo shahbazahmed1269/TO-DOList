@@ -11,7 +11,6 @@ import java.util.HashMap;
  * Created by James on 1/24/2016.
  */
 public class MyPagerAdapter extends SmartFragmentStatePagerAdapter {
-    private static int NUM_ITEMS;
     private HashMap<Integer,List> listMap;
     private Fragment mCurrentFragment;
 
@@ -19,7 +18,7 @@ public class MyPagerAdapter extends SmartFragmentStatePagerAdapter {
         super(fragmentManager);
         listMap=listMap1;
         if(listMap==null)
-            listMap=new HashMap<Integer,List>();
+            listMap=new HashMap<>();
     }
 
     // Returns total number of pages
@@ -33,7 +32,6 @@ public class MyPagerAdapter extends SmartFragmentStatePagerAdapter {
     // Returns the fragment to display for that page
     @Override
     public Fragment getItem(int id) {
-        //Log.d("DEBUG1","inside getItem id "+(listMap.get(id).getId()));
         return ListFragment.newInstance(listMap.get(id).getId());
     }
 
