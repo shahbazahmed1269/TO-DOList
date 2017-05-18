@@ -27,6 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static in.shapps.todoapp.TaskProvider.TASK_CONTENT_URI;
+
 
 public class AddTodoActivity extends AppCompatActivity {
     private Button addTodoButton;
@@ -39,13 +41,8 @@ public class AddTodoActivity extends AppCompatActivity {
     private String alarmStatus="off";
     private String date1;
     String listId;
-    private static final String CONTENT_AUTHORITY = "in.shapps.todoapp";
-    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    public static final String PATH_LIST = "list1";
-    public static final String PATH_TASK = "task1";
-    private static final Uri LIST_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY+"/"+PATH_LIST);
-    private static final Uri TASK_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY+"/"+PATH_TASK);
-    //fields related to SharedPreferences to persist pendingId
+
+    // Fields related to SharedPreferences to persist pendingId
     private int pendingId=0;
     public static final String myPreference = "in.shapps.todoapp.pendingIdPref" ;
     private SharedPreferences sp;
@@ -53,7 +50,6 @@ public class AddTodoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
-        //Toolbar initialization
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_add_record);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -106,19 +102,15 @@ public class AddTodoActivity extends AppCompatActivity {
                         }
                         if(subjectEditText.getText().toString().trim().length() == 0 )
                             subjectEditText.setError( "Title is required!" );
-                        /*else if(descEdittext.getText().toString().trim().length() == 0 )
-                            descEdittext.setError( "Task description is required!" );*/
                         else {
-                            /*task.setTitle(subjectEditText.getText().toString());
-                            task.setDesc(descEdittext.getText().toString());
-                            task.setAlarmStatus("off");
-                            task.setDatetime(new Date());
-                            task.setTaskStatus("incomplete");
-                            dbController.insertTask(task);*/
                             ContentValues contentValues = new ContentValues();
                             contentValues.put(DBHelper.TODO_LIST_ID, listId);
-                            contentValues.put(DBHelper.TODO_SUBJECT,subjectEditText.getText().toString().trim());
-                            contentValues.put(DBHelper.TODO_DESC,descEdittext.getText().toString().trim());
+                            contentValues.put(
+                                    DBHelper.TODO_SUBJECT,subjectEditText.getText().toString().trim()
+                            );
+                            contentValues.put(
+                                    DBHelper.TODO_DESC,descEdittext.getText().toString().trim()
+                            );
                             contentValues.put(DBHelper.TODO_ALARM_STATUS,alarmStatus);
                             if(alarmStatus=="on") {
                                 mDatePicker=(DatePicker) findViewById(R.id.alarm_date);
@@ -134,26 +126,35 @@ public class AddTodoActivity extends AppCompatActivity {
                                 date1=sdf.format(calendar.getTime());
                                 Log.d("DEBUG1", "alarm set for datetime " + date1);
                                 contentValues.put(DBHelper.TODO_DATETIME, date1);
-                                /*Intent i = new Intent(getApplicationContext(), OnAlarmReceiver.class);
-                                PendingIntent pi = PendingIntent.getBroadcast(getApplicationContext(), 0, i,
-                                        PendingIntent.FLAG_ONE_SHOT);
-                                calendar = Calendar.getInstance();
-                                /*calendar.set(Calendar.SECOND, calendar.get(Calendar.SECOND) + 10);
-                                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);*/
-                                Intent myIntent = new Intent(AddTodoActivity.this, OnAlarmReceiver.class);
-                                myIntent.putExtra(DBHelper.TODO_DESC, subjectEditText.getText().toString().trim());
+                                Intent myIntent = new Intent(
+                                        AddTodoActivity.this, OnAlarmReceiver.class
+                                );
+                                myIntent.putExtra(
+                                        DBHelper.TODO_DESC,
+                                        subjectEditText.getText().toString().trim()
+                                );
                                 sp=getSharedPreferences(myPreference, Context.MODE_PRIVATE);
                                 pendingId=sp.getInt("pendingId",0);
-                                PendingIntent pendingIntent = PendingIntent.getBroadcast(AddTodoActivity.this, pendingId, myIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+                                PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                                        AddTodoActivity.this,
+                                        pendingId, myIntent,
+                                        PendingIntent.FLAG_UPDATE_CURRENT
+                                );
                                 pendingId++;
                                 SharedPreferences.Editor editor = sp.edit();
                                 editor.putInt("pendingId", pendingId);
                                 editor.commit();
-                                AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-                                alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
-                                //enabling the broadcast receiver programmatically
-                                ComponentName receiver = new ComponentName(getApplicationContext(), OnAlarmReceiver.class);
+                                AlarmManager alarmManager = (AlarmManager)getSystemService(
+                                        Context.ALARM_SERVICE
+                                );
+                                alarmManager.set(
+                                        AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent
+                                );
+                                // Enabling the broadcast receiver programmatically
+                                ComponentName receiver = new ComponentName(
+                                        getApplicationContext(),
+                                        OnAlarmReceiver.class
+                                );
                                 PackageManager pm = getApplicationContext().getPackageManager();
 
                                 pm.setComponentEnabledSetting(receiver,
@@ -162,9 +163,13 @@ public class AddTodoActivity extends AppCompatActivity {
                             }
                             contentValues.put(DBHelper.TODO_TASK_STATUS, "incomplete");
                             contentValues.put(DBHelper.TODO_TASK_FAVOURTIE,"false");
-                            Uri returnUri = ContentUris.withAppendedId(TASK_CONTENT_URI, Integer.parseInt(listId));
+                            Uri returnUri = ContentUris.withAppendedId(
+                                    TASK_CONTENT_URI,
+                                    Integer.parseInt(listId)
+                            );
                             Uri uri = getContentResolver().insert(returnUri, contentValues);
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class)
+                                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                         }
                         break;

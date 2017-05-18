@@ -26,7 +26,10 @@ public class TodoActivity extends AppCompatActivity {
         Cursor cursor=dbController.fetchAllTask(1);
         String[] from=new String[] { DBHelper.TASK_ID,DBHelper.TODO_SUBJECT,DBHelper.TODO_DESC};
         int[] to=new int[] { R.id.id, R.id.title,R.id.desc};
-        SimpleCursorAdapter adapter=new SimpleCursorAdapter(this,R.layout.activity_view_record,cursor,from,to);
+        // TODO: Fix the deprecated code
+        SimpleCursorAdapter adapter=new SimpleCursorAdapter(
+                this,R.layout.activity_view_record,cursor,from,to
+        );
         adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

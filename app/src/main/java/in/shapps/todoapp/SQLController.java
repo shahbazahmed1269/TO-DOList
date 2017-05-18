@@ -22,9 +22,10 @@ public class SQLController {
         db=dbHelper.getWritableDatabase();
         return this;
     }
-    public Cursor query (String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy, String limit){
-        /*Cursor cursor = db.query(table, columns, selection,
-                selectionArgs, groupBy, having, orderBy, limit);*/
+    public Cursor query (
+            String table, String[] columns, String selection, String[] selectionArgs, String groupBy,
+            String having, String orderBy, String limit
+    ){
         Cursor cursor=db.rawQuery("select * from "+ in.shapps.todoapp.DBHelper.TABLE_NAME_TASK,null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -35,27 +36,16 @@ public class SQLController {
         dbHelper.close();
     }
     public int insertTask(ContentValues contentValue) {
-        /*ContentValues contentValue= new ContentValues();
-        contentValue.put(DBHelper.TODO_DESC,t.getDesc());
-        contentValue.put(DBHelper.TODO_SUBJECT,t.getTitle());
-        contentValue.put(DBHelper.TODO_LIST_ID,t.getListID());
-        contentValue.put(DBHelper.TODO_ALARM_STATUS,t.getAlarmStatus());
-        contentValue.put(DBHelper.TODO_DATETIME,t.getDatetime().toString());
-        contentValue.put(DBHelper.TODO_TASK_STATUS,t.getTaskStatus());*/
         db.insert(in.shapps.todoapp.DBHelper.TABLE_NAME_TASK, null, contentValue);
         Cursor c=db.rawQuery("SELECT last_insert_rowid()", null);
         c.moveToFirst();
         return c.getInt(0);
     }
     public Cursor fetchAllTask(int listId) {
-        /*String[] columns = new String[] { DBHelper.TASK_ID, DBHelper.TODO_SUBJECT,
-                DBHelper.TODO_DESC, DBHelper.TODO_LIST_ID, DBHelper.TODO_ALARM_STATUS, DBHelper.TODO_DATETIME, DBHelper.TODO_TASK_STATUS };
-        Cursor cursor = db.query(DBHelper.TABLE_NAME_TASK, columns,null,
-                null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }*/
-        Cursor cursor=db.rawQuery("select * from "+ in.shapps.todoapp.DBHelper.TABLE_NAME_TASK+" where "+ in.shapps.todoapp.DBHelper.TODO_LIST_ID+"="+listId+";",null);
+        Cursor cursor=db.rawQuery(
+                "select * from "+ in.shapps.todoapp.DBHelper.TABLE_NAME_TASK+" where "+
+                        in.shapps.todoapp.DBHelper.TODO_LIST_ID+"="+listId+";",null
+        );
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -63,12 +53,11 @@ public class SQLController {
     }
     public Cursor fetchTask(int listId,int taskId) {
         String[] columns = new String[] { in.shapps.todoapp.DBHelper.TASK_ID };
-        /*Cursor cursor = db.query(DBHelper.TABLE_NAME_TASK, columns,null,
-                null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }*/
-        Cursor cursor=db.rawQuery("select * from " + in.shapps.todoapp.DBHelper.TABLE_NAME_TASK + " where " + in.shapps.todoapp.DBHelper.TODO_LIST_ID + "=" + listId + " AND " + DBHelper.TASK_ID + "=" + taskId + ";", null);
+        Cursor cursor=db.rawQuery(
+                "select * from " + in.shapps.todoapp.DBHelper.TABLE_NAME_TASK + " where " +
+                        in.shapps.todoapp.DBHelper.TODO_LIST_ID + "=" + listId + " AND " +
+                        DBHelper.TASK_ID + "=" + taskId + ";", null
+        );
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -76,7 +65,11 @@ public class SQLController {
     }
 
     public Cursor fetchTimes() {
-        Cursor cursor=db.rawQuery("select "+DBHelper.TODO_DATETIME+", "+DBHelper.TODO_DESC+" from " + in.shapps.todoapp.DBHelper.TABLE_NAME_TASK + " where " + DBHelper.TODO_ALARM_STATUS + "=\'on\'", null);
+        Cursor cursor=db.rawQuery(
+                "select "+DBHelper.TODO_DATETIME+", "+DBHelper.TODO_DESC+" from " +
+                        in.shapps.todoapp.DBHelper.TABLE_NAME_TASK + " where " +
+                        DBHelper.TODO_ALARM_STATUS + "=\'on\'", null
+        );
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -85,34 +78,38 @@ public class SQLController {
 
 
     public int updateTask(long _id, ContentValues contentValue) {
-        /*ContentValues contentValue= new ContentValues();
-        contentValue.put(DBHelper.TODO_DESC,t.getDesc());
-        contentValue.put(DBHelper.TODO_SUBJECT, t.getTitle());*/
         int i = db.update(in.shapps.todoapp.DBHelper.TABLE_NAME_TASK, contentValue,
                 in.shapps.todoapp.DBHelper.TASK_ID + " = " + _id, null);
         return (int)_id;
     }
 
     public int deleteTask(long _id) {
-        db.delete(in.shapps.todoapp.DBHelper.TABLE_NAME_TASK, in.shapps.todoapp.DBHelper.TASK_ID + "=" + _id, null);
+        db.delete(
+                in.shapps.todoapp.DBHelper.TABLE_NAME_TASK,
+                in.shapps.todoapp.DBHelper.TASK_ID + "=" + _id,
+                null
+        );
         return (int)_id;
     }
 
     public int insertList(ContentValues contentValue) {
-        //ContentValues contentValue= new ContentValues();
-        //contentValue.put(DBHelper.TODO_LIST_NAME,list.getListName());
         db.insert(in.shapps.todoapp.DBHelper.TABLE_NAME_LIST, null, contentValue);
-        //Cursor c=db.rawQuery("select max("+DBHelper.LIST_ID+") from "+DBHelper.TABLE_NAME_LIST,null);
-        //return c.getInt(0);
         Cursor c=db.rawQuery("SELECT last_insert_rowid()",null);
         c.moveToFirst();
         return c.getInt(0);
     }
     public void deleteList(long _id) {
-        db.delete(in.shapps.todoapp.DBHelper.TABLE_NAME_LIST, in.shapps.todoapp.DBHelper.LIST_ID + "=" + _id, null);
+        db.delete(
+                in.shapps.todoapp.DBHelper.TABLE_NAME_LIST,
+                in.shapps.todoapp.DBHelper.LIST_ID + "=" + _id,
+                null
+        );
     }
     public Cursor fetchAllList() {
-        String[] columns = new String[] { in.shapps.todoapp.DBHelper.TASK_ID, in.shapps.todoapp.DBHelper.TODO_LIST_NAME};
+        String[] columns = new String[] {
+                in.shapps.todoapp.DBHelper.TASK_ID,
+                in.shapps.todoapp.DBHelper.TODO_LIST_NAME
+        };
         Cursor cursor = db.query(in.shapps.todoapp.DBHelper.TABLE_NAME_LIST, columns, null,
                 null, null, null, null);
         if (cursor != null) {
@@ -123,7 +120,10 @@ public class SQLController {
     public Cursor fetchList(int listId) {
         String[] columns = new String[] { DBHelper.TASK_ID, DBHelper.TODO_LIST_NAME};
 
-        Cursor cursor = db.query(DBHelper.TABLE_NAME_LIST, columns, DBHelper.LIST_ID, new String[]{listId+""}, null, null, null);
+        Cursor cursor = db.query(
+                DBHelper.TABLE_NAME_LIST, columns, DBHelper.LIST_ID, new String[]{listId+""},
+                null, null, null
+        );
         if (cursor != null) {
             cursor.moveToFirst();
         }

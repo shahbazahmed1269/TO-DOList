@@ -15,16 +15,14 @@ public class Task {
     private String taskStatus;
 
     public Task(){}
-   /* public Task(int id, String title, String desc, int listID, String alarmStatus, Date datetime, String taskStatus) {
-        this.id = id;
-        this.title = title;
-        this.desc = desc;
-        this.listID = listID;
-        this.alarmStatus = alarmStatus;
-        this.datetime = datetime;
-        this.taskStatus = taskStatus;
-    }*/
-    public Task(String title, String desc, int listID, String alarmStatus, Date datetime, String taskStatus) {
+
+    public Task(String title,
+                String desc,
+                int listID,
+                String alarmStatus,
+                Date datetime,
+                String taskStatus
+    ) {
         this.title = title;
         this.desc = desc;
         this.listID = listID;
