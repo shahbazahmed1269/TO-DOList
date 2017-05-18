@@ -18,9 +18,8 @@ import java.util.HashMap;
    Usage involves extending from SmartFragmentStatePagerAdapter as you would any other PagerAdapter.
 */
 public abstract class SmartFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
-    // Sparse array to keep track of registered fragments in memory
-    //private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
-    protected HashMap<Integer,Fragment> registeredFragments=new HashMap<Integer,Fragment>();
+
+    protected HashMap<Integer,Fragment> registeredFragments=new HashMap<>();
 
     public SmartFragmentStatePagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);

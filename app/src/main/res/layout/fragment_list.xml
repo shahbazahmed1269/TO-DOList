@@ -62,15 +62,13 @@
              fab:fab_colorPressed="@color/colorAccent"
              android:src="@drawable/ic_add_white_48dp"
              fab:fab_size="mini"
-             fab:fab_label="Add New List"
-             android:visibility="gone"/>
+             fab:fab_label="Add New List"/>
          <com.github.clans.fab.FloatingActionButton
              android:id="@+id/menu_item2"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              fab:fab_colorNormal="#2196F3"
              fab:fab_colorPressed="#2196F3"
-
              android:src="@drawable/ic_delete_white_48dp"
              fab:fab_size="mini"
              fab:fab_label="Delete this List" />
