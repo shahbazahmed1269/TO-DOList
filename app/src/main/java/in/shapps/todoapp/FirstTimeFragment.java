@@ -13,7 +13,7 @@ public class FirstTimeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static FirstTimeFragment newInstance(String param1, String param2) {
+    public static FirstTimeFragment newInstance() {
         FirstTimeFragment fragment = new FirstTimeFragment();
         return fragment;
     }
@@ -29,10 +29,5 @@ public class FirstTimeFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_first_time, container, false);
 
-    }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

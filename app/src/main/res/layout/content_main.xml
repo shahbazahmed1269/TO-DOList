@@ -1,38 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-    android:orientation="vertical">
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/list_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dividerHeight="1dp"
-        android:layout_marginTop="47dp"
-        android:padding="10dp" >
-    </ListView>
-    <TextView
-        android:id="@+id/empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/empty_list_text"
-        android:layout_marginTop="47dp"
-        android:textColor="@color/textColorPrimary"
-        android:layout_centerVertical="true"
-        android:longClickable="true"
-       />
-    <Button
-        android:id="@+id/delete_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete List"
-        android:layout_marginTop="20dp"
-        android:padding="5dp"
-        android:layout_gravity="center"
-        android:background="@color/colorAccent"
-        android:visibility="gone"
-        />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="47dp"
+            android:longClickable="true"
+            android:text="@string/empty_list_text"
+            android:textColor="@color/colorAccent"
+            android:textSize="16dp"/>
+
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="47dp"
+            android:dividerHeight="1dp"
+            android:padding="10dp">
+        </ListView>
+
+    </FrameLayout>
 
 </LinearLayout>

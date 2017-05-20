@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -19,13 +18,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -140,10 +137,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if (id == R.id.add_record) {
             final AlertDialog.Builder newListAlert = new AlertDialog.Builder(
-                    this,  R.style.DialogTheme
+                    this, R.style.DialogTheme
             );
 
-            View dialogView= getLayoutInflater().inflate(R.layout.list_dialog, null);
+            View dialogView = getLayoutInflater().inflate(R.layout.list_dialog, null);
 
             final EditText mListName = (EditText) dialogView.findViewById(R.id.et_list_name);
             mListName.setTextColor(ContextCompat.getColor(
@@ -153,41 +150,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             newListAlert.setTitle(getString(R.string.add_list))
                     .setView(dialogView)
                     .setPositiveButton(
-                    getString(R.string.create),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            newListName = mListName.getText().toString().trim();
-                            if (newListName == null ||
-                                    newListName.length() == 0 ||
-                                    (newListName.equals(" ") == true)
-                                    ) {
-                                //mListName.setError("List name cannot be empty");
-                                dialog.dismiss();
-                                Toast.makeText(
-                                        getApplicationContext(),
-                                        "List name cannot be Empty",
-                                        Toast.LENGTH_SHORT
-                                ).show();
+                            getString(R.string.create),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    newListName = mListName.getText().toString().trim();
+                                    if (newListName == null ||
+                                            newListName.length() == 0 ||
+                                            (newListName.equals(" ") == true)
+                                            ) {
+                                        //mListName.setError("List name cannot be empty");
+                                        dialog.dismiss();
+                                        Toast.makeText(
+                                                getApplicationContext(),
+                                                "List name cannot be Empty",
+                                                Toast.LENGTH_SHORT
+                                        ).show();
 
-                            } else if (newListName.length() > 10) {
-                                //mListName.setError("List size can not be more than 10 characters");
-                                dialog.dismiss();
-                                Toast.makeText(
-                                        getApplicationContext(),
-                                        "List size can not be more than 10 characters",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                            } else {
-                                ContentValues contentValues = new ContentValues();
-                                contentValues.put(DBHelper.TODO_LIST_NAME, newListName);
-                                Uri uri = getContentResolver().insert(LIST_CONTENT_URI, contentValues);
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
+                                    } else if (newListName.length() > 10) {
+                                        //mListName.setError("List size can not be more than 10 characters");
+                                        dialog.dismiss();
+                                        Toast.makeText(
+                                                getApplicationContext(),
+                                                "List size can not be more than 10 characters",
+                                                Toast.LENGTH_SHORT
+                                        ).show();
+                                    } else {
+                                        ContentValues contentValues = new ContentValues();
+                                        contentValues.put(DBHelper.TODO_LIST_NAME, newListName);
+                                        Uri uri = getContentResolver().insert(LIST_CONTENT_URI, contentValues);
+                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }
                             }
-                        }
-                    }
-            ).setNegativeButton(
+                    ).setNegativeButton(
                     getString(R.string.cancel),
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -222,12 +219,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void checkFirstRun() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         if (settings.getBoolean("my_first_time", true)) {
-            // The app is being launched for first time, do something
-            Log.d("Comments", "First time");
-            // First time task
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FirstTimeFragment fragment = new FirstTimeFragment();
-            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+            // The app is being launched for first time. Create a Default list
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(
+                    DBHelper.TODO_LIST_NAME,
+                    getResources().getString(R.string.defult_list)
+            );
+            Uri uri = getContentResolver().insert(LIST_CONTENT_URI, contentValues);
             // Record the fact that the app has been started at least once
             settings.edit().putBoolean("my_first_time", false).commit();
         }

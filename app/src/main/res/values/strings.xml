@@ -10,7 +10,8 @@
     <string name="btn_delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
-    <string name="empty_list_text">No records found</string>
+    <string name="empty_list_text">No task found</string>
+    <string name="defult_list">Default List</string>
     <string name="enter_desc">Note</string>
     <string name="enter_title">Title</string>
     <string name="title_activity_modify_todo">Modify</string>
@@ -21,10 +22,7 @@
     <string name="drawer_close">Close TaskList</string>
     <string name="more_options">More Options</string>
     <string name="dialog_message">Enter the name of new list</string>
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="no_list_found">No List Found! Please Create a list</string>
+    <string name="no_list_found">No List Found! Create a list using \"+\" button</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->

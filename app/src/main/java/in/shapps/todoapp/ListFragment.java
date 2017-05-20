@@ -50,7 +50,6 @@ public class ListFragment extends Fragment implements
     private ActionMode mActionMode;
     private String taskId;
     private int selectedItemCount = 0;
-    private Button mDeleteButton;
     private String newListName;
     private int mListId;
     private View view;
@@ -165,26 +164,6 @@ public class ListFragment extends Fragment implements
             }
         });
 
-        mDeleteButton = (Button) view.findViewById(R.id.delete_button);
-        mDeleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Uri returnUri = ContentUris.withAppendedId(LIST_CONTENT_URI, mListId);
-                int id = getActivity().getApplicationContext()
-                        .getContentResolver().delete(returnUri, null, null);
-                Toast.makeText(
-                        getActivity().getApplicationContext(),
-                        "List deleted with list_id= " + mListId,
-                        Toast.LENGTH_SHORT
-                ).show();
-                Intent intent = new Intent(
-                        getActivity().getApplicationContext(), MainActivity.class
-                );
-                startActivity(intent);
-            }
-        });
-
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
@@ -277,7 +256,6 @@ public class ListFragment extends Fragment implements
         listView = null;
         mActionMode = null;
         taskId = null;
-        mDeleteButton = null;
         newListName = null;
         view = null;
         fab1 = null;
@@ -415,8 +393,6 @@ public class ListFragment extends Fragment implements
                     alertDialog.show();
                     break;
                 case R.id.menu_item2:
-                    //text = fab2.getLabelText();
-                    fab2.setVisibility(View.GONE);
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
                     builder1.setMessage("Are you sure you want to delete the current list?");
                     builder1.setCancelable(true);
@@ -430,11 +406,13 @@ public class ListFragment extends Fragment implements
                                     );
                                     id = getActivity().getApplicationContext()
                                             .getContentResolver().delete(returnUri, null, null);
-                                    Toast.makeText(
+                                    /*Toast.makeText(
                                             getActivity(),
-                                            "List deleted with list_id= " + mListId,
+                                            "List deleted",
                                             Toast.LENGTH_SHORT
-                                    ).show();
+                                    ).show();*/
+                                    Snackbar.make(getView(), "List Deleted", Snackbar.LENGTH_SHORT)
+                                            .show();
                                     Intent intent = new Intent(
                                             getActivity().getApplicationContext(),
                                             MainActivity.class
@@ -456,7 +434,6 @@ public class ListFragment extends Fragment implements
 
                     break;
                 case R.id.menu_item3:
-                    fab2.setVisibility(View.VISIBLE);
                     Intent add_mem = new Intent(
                             getActivity().getApplicationContext(),
                             AddTodoActivity.class

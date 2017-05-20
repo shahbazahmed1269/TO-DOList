@@ -29,7 +29,6 @@ public abstract class SmartFragmentStatePagerAdapter extends FragmentStatePagerA
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        Log.d("DEBUG1","instantiating item at position "+position);
         registeredFragments.put(position, fragment);
         return fragment;
     }

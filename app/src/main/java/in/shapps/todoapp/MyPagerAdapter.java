@@ -24,7 +24,9 @@ public class MyPagerAdapter extends SmartFragmentStatePagerAdapter {
     // Returns total number of pages
     @Override
     public int getCount() {
-       //Log.d("DEBUG1", "inside getCount id list size " + listMap.size());
+        if (listMap.size() == 0) {
+            return 1;
+        }
         return listMap.size();
         //return NUM_ITEMS;
     }
@@ -32,12 +34,18 @@ public class MyPagerAdapter extends SmartFragmentStatePagerAdapter {
     // Returns the fragment to display for that page
     @Override
     public Fragment getItem(int id) {
+        if (listMap.size() == 0) {
+            return FirstTimeFragment.newInstance();
+        }
         return ListFragment.newInstance(listMap.get(id).getId());
     }
 
     // Returns the page title for the top indicator
     @Override
     public CharSequence getPageTitle(int position) {
+        if (listMap.size() == 0) {
+            return "";
+        }
         return listMap.get(position).getListName();
     }
 
