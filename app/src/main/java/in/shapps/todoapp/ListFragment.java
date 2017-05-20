@@ -55,6 +55,7 @@ public class ListFragment extends Fragment implements
     private View view;
     private MyCursorAdapter myAdapter;
 
+    private FloatingActionMenu menu1;
     private FloatingActionButton fab1;
     private FloatingActionButton fab2;
     private FloatingActionButton fab3;
@@ -89,7 +90,9 @@ public class ListFragment extends Fragment implements
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_list, container, false);
 
-        final FloatingActionMenu menu1 = (FloatingActionMenu) view.findViewById(R.id.menu);
+        menu1 = (FloatingActionMenu) view.findViewById(R.id.menu);
+        menu1.setClosedOnTouchOutside(true);
+
         menu1.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,8 +109,6 @@ public class ListFragment extends Fragment implements
             }
         }, delay);
         delay += 150;
-
-        menu1.setClosedOnTouchOutside(true);
 
         fab1 = (FloatingActionButton) view.findViewById(R.id.menu_item1);
         fab2 = (FloatingActionButton) view.findViewById(R.id.menu_item2);
@@ -266,23 +267,20 @@ public class ListFragment extends Fragment implements
     }
 
     private void createCustomAnimation() {
-        final FloatingActionMenu menu3 = (FloatingActionMenu) view.findViewById(R.id.menu);
-
         AnimatorSet set = new AnimatorSet();
-
         ObjectAnimator scaleOutX = ObjectAnimator.ofFloat(
-                menu3.getMenuIconView(),
+                menu1.getMenuIconView(),
                 "scaleX", 1.0f, 0.2f
         );
         ObjectAnimator scaleOutY = ObjectAnimator.ofFloat(
-                menu3.getMenuIconView(), "scaleY", 1.0f, 0.2f
+                menu1.getMenuIconView(), "scaleY", 1.0f, 0.2f
         );
 
         ObjectAnimator scaleInX = ObjectAnimator.ofFloat(
-                menu3.getMenuIconView(), "scaleX", 0.2f, 1.0f
+                menu1.getMenuIconView(), "scaleX", 0.2f, 1.0f
         );
         ObjectAnimator scaleInY = ObjectAnimator.ofFloat(
-                menu3.getMenuIconView(), "scaleY", 0.2f, 1.0f
+                menu1.getMenuIconView(), "scaleY", 0.2f, 1.0f
         );
 
         scaleOutX.setDuration(50);
@@ -294,7 +292,7 @@ public class ListFragment extends Fragment implements
         scaleInX.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
-                menu3.getMenuIconView().setImageResource(menu3.isOpened()
+                menu1.getMenuIconView().setImageResource(menu1.isOpened()
                         ? R.drawable.ic_arrow_upward_white_24dp :
                         R.drawable.ic_arrow_downward_white_24dp);
             }
@@ -304,7 +302,7 @@ public class ListFragment extends Fragment implements
         set.play(scaleInX).with(scaleInY).after(scaleOutX);
         set.setInterpolator(new OvershootInterpolator(2));
 
-        menu3.setIconToggleAnimatorSet(set);
+        menu1.setIconToggleAnimatorSet(set);
     }
 
     @Override
